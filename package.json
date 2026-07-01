@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/guraiken/clinic-fullstack/issues"
   },
-  "homepage": "https://github.com/guraiken/clinic-fullstack#readme"
+  "homepage": "https://github.com/guraiken/clinic-fullstack#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
 }
