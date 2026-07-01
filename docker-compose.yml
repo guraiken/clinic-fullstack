@@ -19,7 +19,7 @@ services:
 
   # 2. Back-end Express + Prisma
   backend:
-    build: ./node # Caminho para a pasta do Express
+    build: ./clinic-backend # Caminho para a pasta do Express
     container_name: express_backend
     restart: always
     ports:
@@ -30,14 +30,14 @@ services:
     depends_on:
       - db
     volumes:
-      - ./node:/app
+      - ./clinic-backend:/app
       - /app/node_modules
     networks:
       - app-network
 
   # 3. Front-end React
   frontend:
-    build: ./react # Caminho para a pasta do React
+    build: ./clinic # Caminho para a pasta do React
     container_name: react_frontend
     restart: always
     ports:
@@ -45,7 +45,7 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./react:/app
+      - ./clinic:/app
       - /app/node_modules
     networks:
       - app-network
