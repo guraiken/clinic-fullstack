@@ -27,6 +27,7 @@ services:
     environment:
       - PORT=5000
       - DATABASE_URL=postgresql://${USUARIO}:${SENHA}@db:5432/${NOME_BANCO}?schema=public
+      - DB_HOST=db
     depends_on:
       - db
     volumes:
