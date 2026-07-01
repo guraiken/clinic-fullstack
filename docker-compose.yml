@@ -29,6 +29,9 @@ services:
       - DATABASE_URL=postgresql://${USUARIO}:${SENHA}@db:5432/${NOME_BANCO}?schema=public
     depends_on:
       - db
+    volumes:
+      - ./node:/app
+      - /app/node_modules
     networks:
       - app-network
 
@@ -41,6 +44,9 @@ services:
       - '3000:3000'
     depends_on:
       - backend
+    volumes:
+      - ./react:/app
+      - /app/node_modules
     networks:
       - app-network
 
