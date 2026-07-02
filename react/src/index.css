@@ -1,1 +1,99 @@
 @import "tailwindcss";
+
+/* Theme variables: use these across the app. */
+:root {
+  /* Core */
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #0f172a; /* slate-900 */
+  --color-muted: #64748b; /* slate-500 */
+
+  /* Brand / primary (cyan variants) */
+  --color-cyan-700: #0e7490;
+  --color-cyan-600: #0891b2;
+  --color-cyan-400: #22d3ee;
+
+  /* Semantic */
+  --color-success: #16a34a;
+  --color-danger: #dc2626;
+}
+
+/* Dark theme overrides: when the root has .dark or the system prefers dark */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+:root.dark,
+html.dark {
+  --color-bg: #0b1220; /* dark background */
+  --color-surface: #071126;
+  --color-text: #e6eef8; /* light text */
+  --color-muted: #9aa9bb;
+
+  --color-cyan-700: #ffffff;
+  --color-cyan-600: #0b7188;
+  /* Example requested: make --color-cyan-400 white in dark theme */
+  --color-cyan-400: #12bfe6;
+
+  --color-success: #22c55e;
+  --color-danger: #f87171;
+}
+
+/* Apply variables globally so plain elements follow the theme */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Small set of helper classes to use throughout the app */
+.bg-surface { background-color: var(--color-surface) !important; }
+.text-muted { color: var(--color-muted) !important; }
+.text-primary { color: var(--color-cyan-600) !important; }
+.bg-primary { background-color: var(--color-cyan-600) !important; }
+.bg-primary-400 { background-color: var(--color-cyan-400) !important; }
+.btn-primary { background-color: var(--color-cyan-700); color: #ffffff; }
+.btn-primary:hover { background-color: var(--color-cyan-600); }
+
+/* Focus ring utility that uses the theme color */
+.focus-ring-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--color-cyan-600);
+}
+
+/* Accessibility: ensure focus rings contrast in dark mode */
+:root.dark :focus,
+html.dark :focus {
+  outline-color: var(--color-cyan-400);
+}
+
+/* Force Tailwind gray-800 to white in dark mode for text, bg and borders */
+:root.dark .text-gray-800,
+html.dark .text-gray-800 {
+  color: #ffffff !important;
+}
+
+:root.dark .bg-gray-800,
+html.dark .bg-gray-800 {
+  background-color: #ffffff !important;
+}
+
+:root.dark .border-gray-800,
+html.dark .border-gray-800 {
+  border-color: #ffffff !important;
+}
+
+/* Ensure primary buttons remain visible in dark mode */
+:root.dark .btn-primary,
+html.dark .btn-primary,
+body.dark .btn-primary {
+  background-color: var(--color-cyan-700) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+/* Note:
+  - Prefer using these CSS variables in components (className="bg-primary text-white")
+  - For Tailwind utilities, consider mapping Tailwind config to these variables later.
+*/

@@ -10,6 +10,9 @@ export class AuthService {
 
     async cadastrar(dadosUsuario: Usuario) {
         const hash = await createHash(dadosUsuario.senha);
+        const existeUsuario = await this.repository.existeUsuario(dadosUsuario.email || '')
+
+        if(existeUsuario) throw new Error("Usuário já existe")
 
         const usuarioCriado = await this.repository.cadastrar({
             email: dadosUsuario.email,

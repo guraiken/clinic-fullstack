@@ -1,5 +1,5 @@
 {
-  "name": "clinic_backend",
+  "name": "node",
   "version": "1.0.0",
   "description": "Backend with Node, Typescript and Prisma. For students with medical clinic context;",
   "main": "index.js",

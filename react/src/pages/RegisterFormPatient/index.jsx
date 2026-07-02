@@ -32,7 +32,6 @@ function RegisterFormPatient() {
       reference: "",
     },
   });
-
   const [isSaving, setIsSaving] = useState(false);
 
   // handles
@@ -173,7 +172,7 @@ function RegisterFormPatient() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 text-gray-800"
+      className="space-y-6 text-gray-800 dark:text-white"
       autoComplete="off"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

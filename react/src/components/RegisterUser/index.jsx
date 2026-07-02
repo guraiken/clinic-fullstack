@@ -1,7 +1,6 @@
-import { useState, useRef, useEffect } from "react"
+import { useState } from "react"
 import { InputHandler } from "../LoginForm/InputHandler"
 import { toast } from "react-toastify"
-import axios from "axios"
 import apiClient from "../../api/api"
 
 const RegisterUser = ({onClose}) => {
@@ -15,8 +14,6 @@ const RegisterUser = ({onClose}) => {
     //validações e o loading
     const [isSaving, setIsSaving] = useState(false)
     const [isPasswordMatch, setIsPasswordMatch] = useState(true)
-
-    //validação do match
 
     const isPasswordValid = () => password.length >= 8 && password === confirmPassword 
 
@@ -37,26 +34,27 @@ const RegisterUser = ({onClose}) => {
         }
 
         setIsSaving(true)
-        onClose()
 
         try {
             await apiClient.post("/cadastro", {
-                email, senha: password, nome
+                email,
+                senha: password,
+                nome,
             })
 
-            setIsSaving(false)
             cleanForm()
-            toast.success("Usuário Registrado com Sucesso!", {
-                autoClose:2000,
-                hideProgressBar: true  
-            })
-            
-        } catch (error) {
-            console.log("Erro ao criar usuário", error)
-            toast.error(error.response.data.error, {
+            toast.success("Usuário registrado com sucesso!", {
                 autoClose: 2000,
-                hideProgressBar: true
+                hideProgressBar: true,
             })
+            onClose()
+        } catch (error) {
+            const backendError = error?.response?.data?.error
+            toast.error(backendError || "Erro ao registrar usuário. Tente novamente.", {
+                autoClose: 3000,
+                hideProgressBar: true,
+            })
+        } finally {
             setIsSaving(false)
         }
     }
