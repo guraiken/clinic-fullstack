@@ -1,0 +1,285 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "gustavo@gmail.com",
+      "password": "teste123"
+    },
+    {
+      "id": "2",
+      "email": "fred@gmail.com",
+      "password": "teste123"
+    },
+    {
+      "email": "123@gmail.com",
+      "password": "teste123",
+      "id": "oZd4MXEg9vc"
+    },
+    {
+      "email": "testee123@gmail.com",
+      "password": "teste123",
+      "id": "Ex0h7iXtoTE"
+    },
+    {
+      "email": "testeeee@gmail.com",
+      "password": "teste123",
+      "id": "nLp8P289i24"
+    },
+    {
+      "email": "TESTE@TESTE",
+      "password": "teste123",
+      "id": "pwIyhPOnVqI"
+    },
+    {
+      "email": "teste@testeteetete",
+      "password": "teste123",
+      "id": "6H0lAEltb-k"
+    },
+    {
+      "email": "teste@teste.com",
+      "password": "teste123",
+      "id": "ywxXHnZQRW8"
+    },
+    {
+      "email": "Testtetste@teste",
+      "password": "teste123",
+      "id": "IywDTguEoPc"
+    },
+    {
+      "email": "testsetestest@teste.com",
+      "password": "teste123",
+      "id": "pl5FzSvDrfc"
+    },
+    {
+      "email": "testestsetes@teste.com",
+      "password": "teste123",
+      "id": "7IDtjRZ3dik"
+    },
+    {
+      "email": "teste@teste.com",
+      "password": "teste123",
+      "id": "fFD4h6dfFSA"
+    },
+    {
+      "email": "testet@tstestse.com",
+      "password": "teste123",
+      "id": "a7NlCaWxK3Q"
+    },
+    {
+      "email": "teste@testestes.com",
+      "password": "teste123",
+      "id": "KxXdvIbk9ro"
+    },
+    {
+      "email": "teste@testsetsets.com",
+      "password": "teste123",
+      "id": "3mBoMyq17k4"
+    },
+    {
+      "email": "teste@etsstestas",
+      "password": "teste123",
+      "id": "ObluHJWabIo"
+    },
+    {
+      "email": "teste@testeststs.com",
+      "password": "teste123",
+      "id": "Ss0vgYghnrU"
+    },
+    {
+      "email": "dsadsadsa@teste.com",
+      "password": "teste123",
+      "id": "rKyxADh0vKI"
+    },
+    {
+      "email": "teste@testests.com",
+      "password": "teste123",
+      "id": "RGmBLIPStXs"
+    },
+    {
+      "email": "teste@teste.com",
+      "password": "teste123",
+      "id": "2AFne0yu93M"
+    }
+  ],
+  "patients": [
+    {
+      "id": "1",
+      "fullName": "Maria Silva",
+      "birthdate": "1990-05-15",
+      "cpf": "12.345.678-9",
+      "maritalStatus": "Solteira",
+      "phone": "1234-5678",
+      "email": "maria.silva@gmail.com",
+      "birthplace": "São Paulo",
+      "emergencyContact": "(48)85544-5955",
+      "allergies": "A, B",
+      "specialCare": "cuidado A",
+      "healthInsurance": "Unimed",
+      "insuranceNumber": "22121",
+      "insuranceValidity": "15/01/2027",
+      "address": {
+        "cep": "88000-000",
+        "city": "Florianópolis",
+        "state": "SC",
+        "street": "Rua X",
+        "number": "30",
+        "complement": "Casa",
+        "neighborhood": "Centro",
+        "reference": "Muro Branco"
+      }
+    },
+    {
+      "id": "2",
+      "fullName": "João Pedro Santos",
+      "birthdate": "1985-11-23",
+      "cpf": "98.765.432-1",
+      "maritalStatus": "Casado",
+      "phone": "9876-5432",
+      "email": "joao.santos@outlook.com",
+      "birthplace": "Rio de Janeiro",
+      "emergencyContact": "(48)99123-4455",
+      "allergies": "Penicilina",
+      "specialCare": "Nenhum",
+      "healthInsurance": "Bradesco Saúde",
+      "insuranceNumber": "88543",
+      "insuranceValidity": "30/11/2026",
+      "address": {
+        "cep": "88015-200",
+        "city": "Florianópolis",
+        "state": "SC",
+        "street": "Avenida Mauro Ramos",
+        "number": "1205",
+        "complement": "Apto 402",
+        "neighborhood": "Centro",
+        "reference": "Próximo ao Hippo Supermercados"
+      }
+    },
+    {
+      "id": "3",
+      "fullName": "Ana Beatriz Oliveira",
+      "birthdate": "1998-07-04",
+      "cpf": "45.612.378-0",
+      "maritalStatus": "Divorciada",
+      "phone": "4321-8765",
+      "email": "ana.oliveira@uol.com.br",
+      "birthplace": "Porto Alegre",
+      "emergencyContact": "(48)98877-6655",
+      "allergies": "Frutos do mar, Corante amarelo",
+      "specialCare": "Restrição a lactose",
+      "healthInsurance": "Amil",
+      "insuranceNumber": "44329",
+      "insuranceValidity": "08/04/2028",
+      "address": {
+        "cep": "88036-000",
+        "city": "Florianópolis",
+        "state": "SC",
+        "street": "Rua Lauro Linhares",
+        "number": "450",
+        "complement": "Bloco B - Sala 12",
+        "neighborhood": "Trindade",
+        "reference": "Em frente ao shopping"
+      }
+    },
+    {
+      "fullName": "Gustavoles",
+      "gender": "masculino",
+      "birthdate": "2026-06-09",
+      "cpf": "790.821.610-28",
+      "rg": "4241232131321312312321322313213213213123123122313213123213131231231321",
+      "maritalStatus": "solteiro(a)",
+      "phone": "(48) 44141-2313",
+      "email": "teste@teste.com",
+      "birthplace": "Brasileiro",
+      "emergencyContact": "(42) 13123-1412",
+      "allergies": "Sim",
+      "specialCare": "Sim",
+      "healthInsurance": "Sim",
+      "insuranceNumber": "(23) 01409-1242",
+      "insuranceValidity": "2026-06-30",
+      "address": {
+        "cep": "88058-338",
+        "city": "Florianópolis",
+        "state": "SC",
+        "street": "Servidão Rita Maria Garcia",
+        "number": "13222",
+        "complement": "",
+        "neighborhood": "Ingleses do Rio Vermelho",
+        "reference": "Casa do zé"
+      },
+      "id": "QL34WXE4Y8I"
+    },
+    {
+      "fullName": "idsajoisak",
+      "gender": "masculino",
+      "birthdate": "2026-06-02",
+      "cpf": "213.213.213-13",
+      "rg": "3123123123123213213131",
+      "maritalStatus": "solteiro(a)",
+      "phone": "(32) 13132-1321",
+      "email": "321313213123@teste.com",
+      "birthplace": "213123213123",
+      "emergencyContact": "(21) 32131-2321",
+      "allergies": "Sim",
+      "specialCare": "Sim",
+      "healthInsurance": "Sim",
+      "insuranceNumber": "(12) 43214-1412",
+      "insuranceValidity": "200005-09-10",
+      "address": {
+        "cep": "88058-332",
+        "city": "Florianópolis",
+        "state": "SC",
+        "street": "Rua Maria Luiza Garcia",
+        "number": "Casa",
+        "complement": "131231",
+        "neighborhood": "Ingleses do Rio Vermelho",
+        "reference": "9410"
+      },
+      "id": "5L_elHSsdYc"
+    }
+  ],
+  "consults": [
+    {
+      "patientId": "2",
+      "reason": "Resfriado",
+      "date": "20-03-2026",
+      "time": "15:30",
+      "description": "Lorem Ipsum",
+      "medication": "Lorem Ipsum",
+      "dosagePrecautions": "Lorem Ipsum",
+      "id": "1"
+    },
+    {
+      "patientId": "2",
+      "reason": "Gripe",
+      "date": "2026-06-12",
+      "time": "23:50",
+      "description": "gripado",
+      "medication": "analgésico",
+      "dosagePrecautions": "fdadfa",
+      "id": "fMHJHEbuswE"
+    },
+    {
+      "patientId": "6f75s8MTF7g",
+      "reason": "Febre",
+      "date": "2026-06-11",
+      "time": "23:51",
+      "description": "fsfdafdasfd",
+      "medication": "fdasdfaf",
+      "dosagePrecautions": "dfadfa",
+      "id": "chjP4gj8fDQ"
+    }
+  ],
+  "exams": [
+    {
+      "name": "Lorem",
+      "date": "12-07-2025",
+      "time": "15:20",
+      "type": "Lorem",
+      "laboratory": "Lorem",
+      "documentUrl": "http://docexemplo.com",
+      "results": "Lorem",
+      "id": "1"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

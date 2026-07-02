@@ -1,0 +1,47 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Endpoints Usuario",
+  "steps": [
+    {
+      "file": "src/index.ts",
+      "description": "Buscar usuario pelo seu id, aonde o id vem do parametro da requisição. Exemplo /usuario/2, /usuario/3...\r\nfiltra no banco dados os dados de usuario pelo id via where",
+      "line": 21,
+      "selection": {
+        "start": {
+          "line": 28,
+          "character": 1
+        },
+        "end": {
+          "line": 28,
+          "character": 40
+        }
+      }
+    },
+    {
+      "file": "src/index.ts",
+      "description": "Criar usuários, recebendo os dados do usuario a ser criado pelo body da requisição.",
+      "line": 31
+    },
+    {
+      "file": "src/index.ts",
+      "description": "Atualizar o usuario, segue o mesmo principio de buscar por id, aonde o id do usuario atualizado ele vem do parametro da requisição.\r\nAlém disso, é necessario também enviar os dados a serem atualizados via body da requisição.",
+      "line": 43
+    },
+    {
+      "file": "src/index.ts",
+      "description": "Delete segue o mesmo principio de receber o id do usuario a ser deletado via parametro da requisição, onde o delete filtra por id qual usuario deve deletar, evitando o risco de delete sem where, apagando toda a base de dados.",
+      "line": 59
+    },
+    {
+      "file": "src/index.ts",
+      "description": "Endpoints usuario, onde tudo começa",
+      "line": 12
+    },
+    {
+      "file": "src/index.ts",
+      "description": "Endpoint listar todos os usuarios",
+      "line": 13
+    }
+  ],
+  "ref": "db0129f0794bc976e8697f4fb7b37d73e058bf1a"
+}
