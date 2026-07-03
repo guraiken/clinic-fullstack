@@ -2,11 +2,14 @@ import { useState, useEffect } from "react"
 import { FaUserAlt } from "react-icons/fa"
 import { Link } from "react-router"
 import apiClient from "../../api/api"
+import { useAuth } from "../../contexts/AuthContext"
 
 export const PatientsList = ({ isDarkMode = false }) => {
     const [patients, setPatients] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
     const [ages, setAges] = useState({})
+    const {user} = useAuth()
+    const [isAdmin, setIsAdmin] = useState(false)
 
     const calculateAge = (birthdate) => {
         if (!birthdate) return "-"
@@ -25,6 +28,9 @@ export const PatientsList = ({ isDarkMode = false }) => {
     useEffect(() => {
         const fetchPatients = async () => {
             try {
+                if(!user.role !== "admin") return setIsAdmin(false) 
+                else setIsAdmin(true)
+
                 const response = await apiClient.get("/pacientes")
                 const patientsData = response?.data?.data?.pacientes ?? response?.data?.data ?? []
 
@@ -103,8 +109,10 @@ export const PatientsList = ({ isDarkMode = false }) => {
                         </li>
                     ))}
                 </ul>
-            ) : (
+            ) ? isAdmin : (
                 <p className={`text-center py-6 ${isDarkMode ? 'text-slate-400' : 'text-gray-500'}`}>Nenhum paciente encontrado</p>
+            ) : (
+                <p className={`text-center py-6 ${isDarkMode ? 'text-slate-400' : 'text-gray-500'}`}><strong className="text-red-400">Acesso restrito</strong>, usuário não é administrador</p>
             )}
         </div>
     )

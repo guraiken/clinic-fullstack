@@ -18,7 +18,11 @@ export const AuthProvider = ({children}) => {
 
     const logout = () => {
         localStorage.removeItem("email")
+        localStorage.removeItem("theme")
         setUser(null)
+        if (typeof document !== "undefined") {
+            document.documentElement.classList.remove("dark")
+        }
     }
 
     const isAdmin = user && user.role === "admin" ? true : false
