@@ -28,9 +28,13 @@ export const PatientsList = ({ isDarkMode = false }) => {
     useEffect(() => {
         const fetchPatients = async () => {
             try {
-                if(!user.role !== "admin") return setIsAdmin(false) 
-                else setIsAdmin(true)
+                if (!user || user.role !== "ADMIN") {
+                    setIsAdmin(false)
+                    setPatients([])
+                    return
+                }
 
+                setIsAdmin(true)
                 const response = await apiClient.get("/pacientes")
                 const patientsData = response?.data?.data?.pacientes ?? response?.data?.data ?? []
 
@@ -45,7 +49,7 @@ export const PatientsList = ({ isDarkMode = false }) => {
             }
         }
         fetchPatients()
-    }, [])
+    }, [user])
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value)
@@ -79,38 +83,40 @@ export const PatientsList = ({ isDarkMode = false }) => {
                 />
             </div>
 
-            {filteredPatients.length > 0 ? (
-                <ul className={`divide-y ${isDarkMode ? 'divide-slate-700' : 'divide-gray-200'}`}>
-                    {filteredPatients.map((patient) => (
-                        <li
-                            key={patient?.id}
-                            className="flex flex-col sm:flex-row sm:items-center justify-between py-4"
-                        >
-                            <div className="flex items-center gap-4">
-                                <div className={`p-3 rounded-full ${isDarkMode ? 'bg-slate-700 text-cyan-300' : 'bg-cyan-100 text-cyan-700'}`}>
-                                    <FaUserAlt size={20} />
+            {isAdmin ? (
+                filteredPatients.length > 0 ? (
+                    <ul className={`divide-y ${isDarkMode ? 'divide-slate-700' : 'divide-gray-200'}`}>
+                        {filteredPatients.map((patient) => (
+                            <li
+                                key={patient?.id}
+                                className="flex flex-col sm:flex-row sm:items-center justify-between py-4"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className={`p-3 rounded-full ${isDarkMode ? 'bg-slate-700 text-cyan-300' : 'bg-cyan-100 text-cyan-700'}`}>
+                                        <FaUserAlt size={20} />
+                                    </div>
+                                    <div>
+                                        <p className={`font-semibold ${isDarkMode ? 'text-slate-100' : 'text-gray-800'}`}>{patient?.nome}</p>
+                                        <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}>{patient?.email}</p>
+                                        <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}>{patient?.telefone}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className={`font-semibold ${isDarkMode ? 'text-slate-100' : 'text-gray-800'}`}>{patient?.nome}</p>
-                                    <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}>{patient?.email}</p>
-                                    <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}>{patient?.telefone}</p>
-                                </div>
-                            </div>
 
-                            <div className={`text-sm mt-2 sm:mt-0 text-right ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}>
-                                <p><strong>Idade:</strong> {ages[patient?.id] || '-'} anos</p>
-                                <Link
-                                    to={`/paciente/${patient?.id}`}
-                                    className={`font-semibold hover:underline ${isDarkMode ? 'text-cyan-400' : 'text-cyan-700'}`}
-                                >
-                                    Ver detalhes
-                                </Link>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            ) ? isAdmin : (
-                <p className={`text-center py-6 ${isDarkMode ? 'text-slate-400' : 'text-gray-500'}`}>Nenhum paciente encontrado</p>
+                                <div className={`text-sm mt-2 sm:mt-0 text-right ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}>
+                                    <p><strong>Idade:</strong> {ages[patient?.id] || '-'} anos</p>
+                                    <Link
+                                        to={`/paciente/${patient?.id}`}
+                                        className={`font-semibold hover:underline ${isDarkMode ? 'text-cyan-400' : 'text-cyan-700'}`}
+                                    >
+                                        Ver detalhes
+                                    </Link>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p className={`text-center py-6 ${isDarkMode ? 'text-slate-400' : 'text-gray-500'}`}>Nenhum paciente encontrado</p>
+                )
             ) : (
                 <p className={`text-center py-6 ${isDarkMode ? 'text-slate-400' : 'text-gray-500'}`}><strong className="text-red-400">Acesso restrito</strong>, usuário não é administrador</p>
             )}

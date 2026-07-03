@@ -7,17 +7,32 @@ export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
 
     useEffect(() => {
+        const savedUser = localStorage.getItem("user")
+        if (savedUser) {
+            try {
+                setUser(JSON.parse(savedUser))
+                return
+            } catch {
+                localStorage.removeItem("user")
+            }
+        }
+
         const savedEmail = localStorage.getItem("email")
-        if(savedEmail) return setUser({email: savedEmail})
+        if (savedEmail) {
+            setUser({ email: savedEmail })
+        }
     }, [])
 
-    const login = (email) => {
+    const login = (email, role) => {
+        const userData = { email, role }
+        localStorage.setItem("user", JSON.stringify(userData))
         localStorage.setItem("email", email)
-        setUser({ email })
+        setUser(userData)
     }
 
     const logout = () => {
         localStorage.removeItem("email")
+        localStorage.removeItem("user")
         localStorage.removeItem("theme")
         setUser(null)
         if (typeof document !== "undefined") {
@@ -25,7 +40,7 @@ export const AuthProvider = ({children}) => {
         }
     }
 
-    const isAdmin = user && user.role === "admin" ? true : false
+    const isAdmin = user && String(user.role).toUpperCase() === "ADMIN"
 
     return (
         <AuthContext.Provider

@@ -34,11 +34,7 @@ const LoginForm = () => {
           senha: password,
       });
 
-      console.log("response", response)
-
-      // console.log("params", params)
-
-      if (response.data.length === 0) {
+      if (!response?.data || !response.data.accessToken) {
         toast.error("Usuário não encontrado. Verifique o email e senha", {
           autoClose: 3000,
           hideProgressBar: true,
@@ -46,14 +42,12 @@ const LoginForm = () => {
         return;
       }
 
-      const tokenAcesso = localStorage.getItem("accessToken")
-      localStorage.setItem("accessToken", response.data.accessToken)
+      const tokenAcesso = response.data.accessToken
+      localStorage.setItem("accessToken", tokenAcesso)
       localStorage.setItem("refreshToken", response.data.refreshToken)
 
-      console.log("Token", tokenAcesso)
       const payload = jwtDecode(tokenAcesso)
-
-      login(payload.email);
+      login(payload.email, payload.role)
 
       toast.success("Login realizado com sucesso!", {
         autoClose: 2000,
