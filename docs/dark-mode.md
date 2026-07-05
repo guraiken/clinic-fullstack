@@ -17,3 +17,26 @@ A implementação foi feita com React + Tailwind CSS.
 - `useState` e `useEffect` para controlar o estado do tema;
 - classes condicionais do Tailwind para trocar as cores da interface;
 - `localStorage` para persistir a escolha do usuário.
+
+---
+
+## 💻 Exemplos de Código Prático
+
+Abaixo estão os trechos resumidos que demonstram como a lógica do Dark Mode foi estruturada no sistema:
+
+### 1. Inicialização e Persistência de Estado
+Este bloco demonstra como o estado lê o `localStorage` ao iniciar e como o `useEffect` grava a escolha do usuário sempre que o tema muda.
+
+```jsx
+// Inicializa o estado buscando o valor salvo no navegador (padrão é falso/light)
+const [isDarkMode, setIsDarkMode] = useState(() => {
+  return localStorage.getItem("theme") === "dark"
+})
+
+// Salva a preferência no localStorage toda vez que o estado for alterado
+useEffect(() => {
+  localStorage.setItem("theme", isDarkMode ? "dark" : "light")
+}, [isDarkMode])
+
+// Função que alterna o booleano de controle
+const toggleDarkMode = () => setIsDarkMode(prev => !prev)
