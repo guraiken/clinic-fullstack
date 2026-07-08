@@ -7,7 +7,12 @@ export class ProntuaryRepository {
     }
 
     async listarProntuarios() {
-        return await this.prisma.prontuario.findMany()
+        return await this.prisma.prontuario.findMany({
+            include: {
+                paciente: true,
+                usuario: true,
+            },
+        })
     }
 
     async listarPorId(id: number) {
