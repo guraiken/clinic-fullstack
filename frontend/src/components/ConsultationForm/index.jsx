@@ -204,11 +204,10 @@ function ConsultationForm() {
   };
 
   const labelClass = `block text-sm font-semibold mb-2 ${isDarkMode ? "text-slate-300" : "text-gray-700"}`;
-  const inputClass = `w-full border p-2 rounded-lg focus:ring-2 focus:ring-cyan-600 outline-none ${
-    isDarkMode
+  const inputClass = `w-full border p-2 rounded-lg focus:ring-2 focus:ring-cyan-600 outline-none ${isDarkMode
       ? "bg-slate-700 border-slate-600 text-slate-100 placeholder:text-slate-400"
       : "bg-white border-gray-300 text-gray-900"
-  }`;
+    }`;
 
   return (
     <section className={isDarkMode ? "text-slate-100" : "text-gray-800"}>
@@ -301,7 +300,152 @@ function ConsultationForm() {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-         {/* O conteúdo interno do modal permanece igual... */}
+        {selectedPatient && (
+          <>
+            <h2 className={`text-lg font-bold mb-4 ${isDarkMode ? "text-cyan-400" : "text-cyan-700"}`}>
+              Cadastrar consulta para {selectedPatient.nome}
+            </h2>
+
+            <div className={`mb-4 text-sm ${isDarkMode ? "text-slate-300" : "text-gray-700"}`}>
+              <p>
+                <strong>Email:</strong> {selectedPatient.email}
+              </p>
+              <p>
+                <strong>Telefone:</strong> {selectedPatient.telefone || "-"}
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="reason" className={labelClass}>
+                  Motivo da Consulta
+                </label>
+                <input
+                  type="text"
+                  name="reason"
+                  id="reason"
+                  value={formData.reason}
+                  onChange={handleInputChange}
+                  required
+                  className={inputClass}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="date" className={labelClass}>
+                    Data
+                  </label>
+                  <input
+                    type="date"
+                    name="date"
+                    id="date"
+                    value={formData.date}
+                    onChange={handleInputChange}
+                    required
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="time" className={labelClass}>
+                    Horário
+                  </label>
+                  <input
+                    type="time"
+                    name="time"
+                    id="time"
+                    value={formData.time}
+                    onChange={handleInputChange}
+                    required
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="medico_responsavel_id" className={labelClass}>
+                  ID do médico responsável
+                </label>
+                <input
+                  type="number"
+                  name="medico_responsavel_id"
+                  id="medico_responsavel_id"
+                  value={formData.medico_responsavel_id}
+                  onChange={handleInputChange}
+                  required
+                  min="1"
+                  className={inputClass}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="description" className={labelClass}>
+                  Descrição do problema
+                </label>
+                <textarea
+                  name="description"
+                  id="description"
+                  value={formData.description}
+                  rows={3}
+                  onChange={handleInputChange}
+                  required
+                  className={`${inputClass} resize-none`}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="medication" className={labelClass}>
+                  Medicação receitada
+                </label>
+                <input
+                  type="text"
+                  name="medication"
+                  id="medication"
+                  value={formData.medication}
+                  onChange={handleInputChange}
+                  required
+                  className={inputClass}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="dosagePrecautions" className={labelClass}>
+                  Dosagem e Precauções
+                </label>
+                <input
+                  type="text"
+                  name="dosagePrecautions"
+                  id="dosagePrecautions"
+                  value={formData.dosagePrecautions}
+                  onChange={handleInputChange}
+                  required
+                  className={inputClass}
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className={`px-4 py-2 rounded-lg transition ${isDarkMode
+                      ? "bg-slate-600 text-slate-100 hover:bg-slate-500"
+                      : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                    }`}
+                >
+                  Fechar
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={isSaving}
+                  className="px-4 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-600 disabled:opacity-50 transition"
+                >
+                  {isSaving ? "Salvando..." : "Salvar"}
+                </button>
+              </div>
+            </form>
+          </>
+        )}
       </Modal>
     </section>
   );
