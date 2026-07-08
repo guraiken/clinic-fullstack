@@ -9,8 +9,8 @@ export const ExamCounter = ({ isDarkMode = false }) => {
         const fetchPatients = async () => {
             try {
                 const response = await apiClient.get("/exames")
-                const data = response?.data?.data ?? response?.data ?? []
-                setExamCounter(Array.isArray(data) ? data.length : 0)
+                const data = response?.data?.data.exames
+                setExamCounter(data.length ?? 0)
             } catch (error) {
                 console.error("Erro ao obter dados dos exames", error)
             }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { FaUserAlt } from "react-icons/fa"
 import { Link } from "react-router"
 import apiClient from "../../api/api"
@@ -10,6 +10,11 @@ export const PatientsList = ({ isDarkMode = false }) => {
   const [ages, setAges] = useState({})
   const { user } = useAuth()
   const [isAdmin, setIsAdmin] = useState(false)
+  const [loading, setLoading] = useState(true) // Adicionado o estado de loading inicializado como true
+
+  // Referência persistente para o temporizador do Debounce
+  const debounceTimeoutRef = useRef(null)
+
   const [pagination, setPagination] = useState({
     total: 0,
     totalPages: 1,
@@ -30,7 +35,6 @@ export const PatientsList = ({ isDarkMode = false }) => {
     return age
   }
 
-  // 1. CORREÇÃO: Agora a função recebe o 'currentSearch' explicitamente para evitar closures atrasadas
   const fetchPatients = useCallback(async (page = 1, limit = 4, isBlurSearch = false, currentSearch = "") => {
     try {
       if (!user || user.role !== "ADMIN") {
@@ -63,41 +67,57 @@ export const PatientsList = ({ isDarkMode = false }) => {
       })
     } catch (error) {
       console.error("Erro ao obter dados dos pacientes", error)
+    } finally {
+      setLoading(false) // Garante o desligamento do loading ao fim da requisição
     }
-  }, [user]) // Removido searchTerm das dependências para evitar loops
+  }, [user])
 
-  // 2. Dispara a busca padrão quando a página mudar (apenas se o input estiver vazio)
+  // O efeito dispara APENAS se o campo de busca estiver vazio, blindando a paginação padrão
   useEffect(() => {
     if (!searchTerm.trim()) {
+      setLoading(true) // Ativa o loading ao mudar de página tradicional
       fetchPatients(pagination.page, pagination.limit, false, "")
     }
   }, [pagination.page, pagination.limit, fetchPatients])
 
-  // 3. Função para mudar de página controlada pelos botões
   const handlePageChange = (targetPage) => {
     if (targetPage < 1 || targetPage > pagination.totalPages) return
     setPagination(prev => ({ ...prev, page: targetPage }))
   }
 
-  // 4. CORREÇÃO: Passa a string limpa diretamente para forçar a paginação correta na API imediatamente
+  // Nova estratégia controlada por Debounce inteligente no onChange com ativação de Loading
   const handleSearchChange = (e) => {
     const value = e.target.value
     setSearchTerm(value)
 
-    if (!value.trim()) {
-      fetchPatients(1, 4, false, "")
+    // Limpa o timer anterior da letra digitada antes
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current)
     }
+
+    if (!value.trim()) {
+      // Se o usuário apagar o campo, ativa o loading e reseta instantaneamente para a primeira página limpa
+      setLoading(true)
+      fetchPatients(1, 4, false, "")
+      return
+    }
+
+    // Ativa o feedback visual imediatamente enquanto o usuário está digitando
+    setLoading(true)
+
+    // Aguarda o usuário parar de digitar por 600ms para disparar o lote completo
+    debounceTimeoutRef.current = setTimeout(() => {
+      fetchPatients(1, 4, true, value)
+    }, 600)
   }
 
-  // 5. CORREÇÃO: Proteção total contra o campo vazio no Blur
-  const handleSearchBlur = (e) => {
-    const value = e.target.value
-    if (!value.trim()) return
+  // Limpeza preventiva de memória quando o componente for desmontado
+  useEffect(() => {
+    return () => {
+      if (debounceTimeoutRef.current) clearTimeout(debounceTimeoutRef.current)
+    }
+  }, [])
 
-    fetchPatients(1, 4, true, value)
-  }
-
-  // O filtro local continua ativo enquanto o usuário digita
   const filteredPatients = patients.filter((patient) =>
     [patient?.nome, patient?.email, patient?.telefone]
       .filter(Boolean)
@@ -127,7 +147,6 @@ export const PatientsList = ({ isDarkMode = false }) => {
             id="search"
             value={searchTerm}
             onChange={handleSearchChange}
-            onBlur={handleSearchBlur}
             placeholder="Digite o nome, email ou telefone"
             className={`border rounded-lg px-3 py-2 w-full sm:w-80 focus:ring-2 focus:ring-cyan-600 outline-none ${isDarkMode
               ? "bg-slate-700 border-slate-600 text-slate-100 placeholder:text-slate-400"
@@ -137,7 +156,12 @@ export const PatientsList = ({ isDarkMode = false }) => {
         </div>
       </div>
 
-      {isAdmin ? (
+      {/* Condicional que exibe o Carregando se o loading estiver ativo */}
+      {loading ? (
+        <p className={`text-center py-6 ${isDarkMode ? "text-slate-400" : "text-gray-500"}`}>
+          Carregando pacientes...
+        </p>
+      ) : isAdmin ? (
         <>
           {pagination.totalPages > 1 && (
             <div
