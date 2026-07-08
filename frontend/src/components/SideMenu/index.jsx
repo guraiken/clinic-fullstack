@@ -76,14 +76,6 @@ export const SideMenu = ({ isDarkMode, onToggleTheme }) => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/exams" className={({isActive}) => 
-                            isActive ? `${isDarkMode ? 'text-cyan-400' : 'text-cyan-300'} flex gap-2` : `flex items-center gap-3 ${isDarkMode ? 'hover:text-cyan-400' : 'hover:text-cyan-300'}`
-                        }>
-                            <FaListAlt size={20}/>
-                            {!isCollapsed && <span>Exames</span>}
-                        </NavLink>
-                    </li>
-                    <li>
                         <NavLink to="/prontuarios" className={({isActive}) => 
                             isActive ? `${isDarkMode ? 'text-cyan-400' : 'text-cyan-300'} flex gap-2` : `flex items-center gap-3 ${isDarkMode ? 'hover:text-cyan-400' : 'hover:text-cyan-300'}`
                         }>
