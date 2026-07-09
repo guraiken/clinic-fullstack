@@ -1,41 +1,24 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useOutletContext } from "react-router";
 
 import { IMaskInput } from "react-imask";
+import apiClient from "../../api/api";
 
 function RegisterFormPatient() {
   const { isDarkMode } = useOutletContext();
 
   const labelClass = `block text-sm font-medium mb-1 ${isDarkMode ? "text-slate-300" : "text-gray-700"}`;
   const inputClass = `w-full border p-2 rounded-lg focus:ring-2 focus:ring-cyan-600 outline-none ${isDarkMode ? "bg-slate-700 border-slate-600 text-slate-100 placeholder:text-slate-400" : "bg-white border-gray-300 text-gray-900"}`;
+
   const [formData, setFormData] = useState({
-    fullName: "",
-    gender: "",
-    birthdate: "",
+    nome: "",
+    sexo: "",
+    data_nascimento: "",
     cpf: "",
-    rg: "",
-    maritalStatus: "",
-    phone: "",
+    telefone: "",
     email: "",
-    birthplace: "",
-    emergencyContact: "",
-    allergies: "",
-    specialCare: "",
-    healthInsurance: "",
-    insuranceNumber: "",
-    insuranceValidity: "",
-    address: {
-      cep: "",
-      city: "",
-      state: "",
-      street: "",
-      number: "",
-      complement: "",
-      neighborhood: "",
-      reference: "",
-    },
+    responsavel: "",
   });
   const [isSaving, setIsSaving] = useState(false);
 
@@ -44,43 +27,6 @@ function RegisterFormPatient() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value })); //operador spread e propriedade computada
-  };
-
-  const handleAddressChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      address: { ...prev.address, [name]: value },
-    })); //operador spread e propriedade computada
-  };
-
-  // requisição para api viacep
-
-  const fetchAddressData = async (cep) => {
-    try {
-      const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json`);
-      setFormData((prev) => ({
-        ...prev,
-        address: {
-          ...prev.address,
-          cep: data.cep || "",
-          city: data.localidade || "",
-          state: data.uf || "",
-          street: data.logradouro || "",
-          complement: data.complemento || "",
-          neighborhood: data.bairro || "",
-        },
-      }));
-    } catch (error) {
-      console.log("Erro ao buscar endereço", error);
-    }
-  };
-
-  // tratamento do valor digitado no campo de cep
-
-  const handleCepBlur = (e) => {
-    const cep = e.target.value.replace(/\D/g, "");
-    if (cep.length === 8) fetchAddressData(cep);
   };
 
   //validação da data de nascimento
@@ -110,7 +56,7 @@ function RegisterFormPatient() {
   const maxBirthDate = yesterday.toISOString().split("T")[0];
 
   const validadeDate = () => {
-    const selectedDate = new Date(formData.birthdate);
+    const selectedDate = new Date(formData.data_nascimento);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -126,12 +72,14 @@ function RegisterFormPatient() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     validadeDate()
     setIsSaving(true);
 
     try {
-      await axios.post("http://localhost:3000/patients", formData);
+      const pacientes = await apiClient.post("/pacientes", formData); // ajuste a rota para "/pacientes" se for essa a usada no back-end
+
+      console.log(pacientes.data)
 
       toast.success("Paciente cadastrado com sucesso!", {
         autoClose: 2000,
@@ -139,31 +87,13 @@ function RegisterFormPatient() {
       });
 
       setFormData({
-        fullName: "",
-        gender: "",
-        birthdate: "",
+        nome: "",
+        sexo: "",
+        data_nascimento: "",
         cpf: "",
-        rg: "",
-        maritalStatus: "",
-        phone: "",
+        telefone: "",
         email: "",
-        birthplace: "",
-        emergencyContact: "",
-        allergies: "",
-        specialCare: "",
-        healthInsurance: "",
-        insuranceNumber: "",
-        insuranceValidity: "",
-        address: {
-          cep: "",
-          city: "",
-          state: "",
-          street: "",
-          number: "",
-          complement: "",
-          neighborhood: "",
-          reference: "",
-        },
+        responsavel: "",
       });
     } catch (error) {
       console.error(error);
@@ -171,6 +101,8 @@ function RegisterFormPatient() {
         autoClose: 2000,
         hideProgressBar: true,
       });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -192,51 +124,52 @@ function RegisterFormPatient() {
 
         {/* Nome completo */}
         <fieldset>
-          <label htmlFor="fullName" className={labelClass}>
+          <label htmlFor="nome" className={labelClass}>
             Nome Completo
           </label>
           <input
             type="text"
-            name="fullName"
-            id="fullName"
-            value={formData.fullName}
+            name="nome"
+            id="nome"
+            value={formData.nome}
             onChange={handleInputChange}
             required
             className={inputClass}
           />
         </fieldset>
 
-        {/* gênero */}
+        {/* sexo */}
 
         <fieldset>
-          <label htmlFor="gender" className={labelClass}>
-            Gênero
+          <label htmlFor="sexo" className={labelClass}>
+            Sexo
           </label>
 
           <select
-            name="gender"
-            value={formData.gender}
+            name="sexo"
+            id="sexo"
+            value={formData.sexo}
             onChange={handleInputChange}
             required
             className={inputClass}
           >
             <option value="">Selecione</option>
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
-            <option value="outro">Outro</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outro">Outro</option>
           </select>
         </fieldset>
 
         {/* Data de nascimento */}
         <fieldset>
-          <label htmlFor="birthdate" className={labelClass}>
+          <label htmlFor="data_nascimento" className={labelClass}>
             Data de Nascimento
           </label>
           <input
             type="date"
-            name="birthdate"
-            id="birthdate"
-            value={formData.birthdate}
+            name="data_nascimento"
+            id="data_nascimento"
+            value={formData.data_nascimento}
             onChange={handleInputChange}
             onBlur={validadeDate}
             max={maxBirthDate}
@@ -263,79 +196,18 @@ function RegisterFormPatient() {
           />
         </fieldset>
 
-        {/* RG */}
-        <fieldset>
-          <label htmlFor="rg" className={labelClass}>
-            RG:
-          </label>
-          <input
-            type="text"
-            name="rg"
-            id="rg"
-            value={formData.rg}
-            onChange={handleInputChange}
-            required
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Estado Civil */}
-
-        <fieldset>
-          <label
-            htmlFor="maritalStatus"
-            className={labelClass}
-          >
-            Estado Civil
-          </label>
-
-          <select
-            name="maritalStatus"
-            value={formData.maritalStatus}
-            onChange={handleInputChange}
-            required
-            className={inputClass}
-          >
-            <option value="">Selecione</option>
-            <option value="solteiro(a)">Solteiro(a)</option>
-            <option value="casado(a)">Casado(a)</option>
-            <option value="divorciado(a)">Divorciado(a)</option>
-            <option value="viuvo(a)">Viúvo(a)</option>
-          </select>
-        </fieldset>
-
         {/* telefone */}
         <fieldset>
-          <label htmlFor="phone" className={labelClass}>
+          <label htmlFor="telefone" className={labelClass}>
             Telefone
           </label>
           <IMaskInput
             mask="(00) 00000-0000"
-            name="phone"
-            id="phone"
-            value={formData.phone}
+            name="telefone"
+            id="telefone"
+            value={formData.telefone}
             onAccept={(value) =>
-              setFormData((prev) => ({ ...prev, phone: value }))
-            }
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* contato de emergência */}
-        <fieldset>
-          <label
-            htmlFor="emergencyContact"
-            className={labelClass}
-          >
-            Contato de Emergência
-          </label>
-          <IMaskInput
-            mask="(00) 00000-0000"
-            name="emergencyContact"
-            id="emergencyContact"
-            value={formData.emergencyContact}
-            onAccept={(value) =>
-              setFormData((prev) => ({ ...prev, emergencyContact: value }))
+              setFormData((prev) => ({ ...prev, telefone: value }))
             }
             className={inputClass}
           />
@@ -357,238 +229,17 @@ function RegisterFormPatient() {
           />
         </fieldset>
 
-        {/* Naturalidade */}
+        {/* Responsável (campo opcional no schema, ex: paciente menor de idade) */}
         <fieldset>
-          <label
-            htmlFor="birthplace"
-            className={labelClass}
-          >
-            Naturalidade:
+          <label htmlFor="responsavel" className={labelClass}>
+            Responsável
           </label>
           <input
             type="text"
-            name="birthplace"
-            id="birthplace"
-            value={formData.birthplace}
+            name="responsavel"
+            id="responsavel"
+            value={formData.responsavel}
             onChange={handleInputChange}
-            required
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Alergias */}
-        <fieldset>
-          <label htmlFor="allergies" className={labelClass}>
-            Alergias?
-          </label>
-          <input
-            type="text"
-            name="allergies"
-            id="allergies"
-            value={formData.allergies}
-            onChange={handleInputChange}
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Cuidados especiais */}
-        <fieldset>
-          <label
-            htmlFor="specialCare"
-            className={labelClass}
-          >
-            Cuidados Especiais?
-          </label>
-          <input
-            type="text"
-            name="specialCare"
-            id="specialCare"
-            value={formData.specialCare}
-            onChange={handleInputChange}
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Convênio */}
-        <fieldset>
-          <label
-            htmlFor="healthInsurance"
-            className={labelClass}
-          >
-            Convênio
-          </label>
-          <input
-            type="text"
-            name="healthInsurance"
-            id="healthInsurance"
-            value={formData.healthInsurance}
-            onChange={handleInputChange}
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Número do Convênio */}
-        <fieldset>
-          <label
-            htmlFor="insuranceNumber"
-            className={labelClass}
-          >
-            Número do Convênio
-          </label>
-          <input
-            type="text"
-            name="insuranceNumber"
-            id="insuranceNumber"
-            value={formData.insuranceNumber}
-            onChange={handleInputChange}
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Validade do Convênio */}
-        <fieldset>
-          <label
-            htmlFor="insuranceValidity"
-            className={labelClass}
-          >
-            Validade do Convênio
-          </label>
-          <input
-            type="date"
-            name="insuranceValidity"
-            id="insuranceValidity"
-            value={formData.insuranceValidity}
-            onChange={handleInputChange}
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* CEP */}
-        <fieldset>
-          <label htmlFor="cep" className={labelClass}>
-            CEP
-          </label>
-          <IMaskInput
-            mask="00000-000"
-            name="cep"
-            id="cep"
-            value={formData.address.cep}
-            onBlur={handleCepBlur}
-            onAccept={(value) =>
-              handleAddressChange({ target: { name: "cep", value } })
-            }
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Rua */}
-        <fieldset>
-          <label htmlFor="street" className={labelClass}>
-            Rua
-          </label>
-          <input
-            type="text"
-            name="street"
-            id="street"
-            value={formData.address.street}
-            onChange={handleAddressChange}
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Número */}
-        <fieldset>
-          <label htmlFor="number" className={labelClass}>
-            Número
-          </label>
-          <input
-            type="text"
-            name="number"
-            id="number"
-            value={formData.address.number}
-            onChange={handleAddressChange}
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Complemento */}
-        <fieldset>
-          <label
-            htmlFor="complement"
-            className={labelClass}
-          >
-            Complemento
-          </label>
-          <input
-            type="text"
-            name="complement"
-            id="complement"
-            value={formData.address.complement}
-            onChange={handleAddressChange}
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Referência */}
-        <fieldset>
-          <label htmlFor="reference" className={labelClass}>
-            Referência
-          </label>
-          <input
-            type="text"
-            name="reference"
-            id="reference"
-            value={formData.address.reference}
-            onChange={handleAddressChange}
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Bairro */}
-        <fieldset>
-          <label
-            htmlFor="neighborhood"
-            className={labelClass}
-          >
-            Bairro
-          </label>
-          <input
-            type="text"
-            name="neighborhood"
-            id="neighborhood"
-            value={formData.address.neighborhood}
-            onChange={handleAddressChange}
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Cidade */}
-        <fieldset>
-          <label htmlFor="city" className={labelClass}>
-            Cidade
-          </label>
-          <input
-            type="text"
-            name="city"
-            id="city"
-            value={formData.address.city}
-            onChange={handleAddressChange}
-            className={inputClass}
-          />
-        </fieldset>
-
-        {/* Estado */}
-        <fieldset>
-          <label htmlFor="state" className={labelClass}>
-            Estado
-          </label>
-          <input
-            type="text"
-            name="state"
-            id="state"
-            value={formData.address.state}
-            onChange={handleAddressChange}
-            disabled="true"
             className={inputClass}
           />
         </fieldset>

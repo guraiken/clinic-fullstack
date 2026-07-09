@@ -9,11 +9,15 @@ export class PatientRepository {
 
     async listarPacientes(pagina?: number, limite?: number) {
         const existePaginacao = pagina! && limite!
-        if (!existePaginacao) return { pacientes: await this.prisma.paciente.findMany() }
+        if (!existePaginacao) return { pacientes: await this.prisma.paciente.findMany({include: {Consulta: true, Exame: true}}) }
 
         const pacientes = await this.prisma.paciente.findMany({
             skip: (pagina - 1) * limite,
-            take: limite
+            take: limite,
+            include: {
+                Consulta: true,
+                Exame: true
+            }
         })
 
         const total = Math.ceil(await this.prisma.paciente.count())
@@ -33,14 +37,18 @@ export class PatientRepository {
                 cpf: dadosPaciente.cpf || "",
                 sexo: dadosPaciente.sexo || "",
                 telefone: dadosPaciente.telefone || "",
-                data_nascimento: dadosPaciente.data_nascimento || ""
+                data_nascimento: new Date (dadosPaciente.data_nascimento || "") 
             }
         })
     }
 
     async buscarPorId(id: number){
         return await this.prisma.paciente.findUnique({
-            where: {id}
+            where: {id},
+            include: {
+                Consulta: true,
+                Exame: true
+            }
         })
     }
 

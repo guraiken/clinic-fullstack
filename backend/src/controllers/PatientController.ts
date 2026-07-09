@@ -1,7 +1,5 @@
 import type { Request, Response } from "express";
 import { patientService, type PatientService } from "../services/PatientService";
-import { Prisma } from "../prisma/generated/prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 
 class PatientController {
     constructor(private readonly service: PatientService) { }
@@ -11,13 +9,13 @@ class PatientController {
             const pagina = req.query.pagina ? Number(req.query.pagina) : undefined
             const limite = req.query.limite ? Number(req.query.limite) : undefined
 
-            if(pagina === undefined || limite === undefined) {
+            if (pagina === undefined || limite === undefined) {
                 const dadosPacientes = await this.service.listarPacientes()
                 return res.status(200).json({
                     message: "Pacientes encontrados com sucesso!",
                     data: dadosPacientes
                 })
-            }else {   
+            } else {
                 const dadosPacientes = await this.service.listarPacientes(pagina, limite)
                 return res.status(200).json({
                     message: "Pacientes encontrados com sucesso!",
@@ -65,8 +63,7 @@ class PatientController {
         } catch (error) {
             console.log(error)
             if (error instanceof Error) {
-                return res.status(404).json({
-                    error: error,
+                return res.status(400).json({
                     message: error?.message
                 })
             }
@@ -97,7 +94,7 @@ class PatientController {
     async deletarPaciente(req: Request, res: Response) {
         const idPaciente = Number(req.params.id)
         const pacienteDeletado = await this.service.deletarPaciente(idPaciente)
-        
+
         return res.status(200).json({
             message: "Paciente deletado com sucesso!",
             data: pacienteDeletado

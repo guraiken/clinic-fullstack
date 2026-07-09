@@ -82,6 +82,7 @@ const PatientDetails = () => {
         const patientRes = await apiClient.get(`/pacientes/${id}`)
         const patientData = patientRes.data?.data ?? patientRes.data
 
+        console.log(patientData)
         setPatient(patientData)
         setConsults(normalizeList(patientData?.Consulta))
         setExams(normalizeList(patientData?.Exame))

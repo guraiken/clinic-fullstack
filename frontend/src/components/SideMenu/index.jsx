@@ -36,7 +36,7 @@ export const SideMenu = ({ isDarkMode, onToggleTheme }) => {
     }
 
     return (
-        <aside className={`h-screen ${isDarkMode ? 'bg-slate-900 text-slate-100' : 'bg-cyan-800 text-white'} flex flex-col justify-between transition-all duration-300 ${isCollapsed ? 'w-20 items-center' : 'w-64'}`}>
+        <aside className={`h-screen ${isDarkMode ? 'bg-slate-900 text-slate-100' : 'bg-cyan-800 text-white'} sticky top-0 flex flex-col justify-between transition-all duration-300 ${isCollapsed ? 'w-20 items-center' : 'w-64'}`}>
             <div className={`p-4 flex items-center justify-between border-b ${isDarkMode ? 'border-slate-700' : 'border-cyan-700'}`}>
                 { !isCollapsed && (
                     <h1 className="text-lg font-bold">Clínica +</h1>
