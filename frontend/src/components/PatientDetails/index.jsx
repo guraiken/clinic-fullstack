@@ -80,16 +80,11 @@ const PatientDetails = () => {
         setLoading(true)
 
         const patientRes = await apiClient.get(`/pacientes/${id}`)
-        const consultsRes = await apiClient.get('/consultas')
-        const examsRes = await apiClient.get('/exames')
-
         const patientData = patientRes.data?.data ?? patientRes.data
-        const consultsPayload = normalizeList(consultsRes.data)
-        const examsPayload = normalizeList(examsRes.data)
 
         setPatient(patientData)
-        setConsults(consultsPayload.filter((consult) => Number(consult?.paciente_id) === Number(id)))
-        setExams(examsPayload.filter((exam) => Number(exam?.pacienteId) === Number(id)))
+        setConsults(normalizeList(patientData?.Consulta))
+        setExams(normalizeList(patientData?.Exame))
       } catch (error) {
         console.error('Erro ao obter os detalhes do paciente:', error)
         toast.error('Não foi possível carregar os detalhes do paciente.')

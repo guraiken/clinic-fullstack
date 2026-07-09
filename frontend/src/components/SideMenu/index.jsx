@@ -48,40 +48,88 @@ export const SideMenu = ({ isDarkMode, onToggleTheme }) => {
             </div>
 
             {/* MENU */}
-            <nav className="flex-1 p-4 space-y-4 overflow-y-auto">
-                <ul className="space-y-3">
+            <nav className='flex-1 p-4 space-y-4 overflow-y-auto'>
+                <ul className='space-y-3'>
                     <li>
-                        <NavLink to="/dashboard" className={({isActive}) => 
-                            isActive ? `${isDarkMode ? 'text-cyan-400' : 'text-cyan-300'} flex gap-2` : `flex items-center gap-3 ${isDarkMode ? 'hover:text-cyan-400' : 'hover:text-cyan-300'}`
-                        }>
-                            <MdDashboard size={20}/>
+                        <NavLink
+                            to="/dashboard"
+                            className={({ isActive }) =>
+                                `flex gap-2 hover:text-cyan-300 ${isActive ? "text-cyan-300" : "text-white"
+                                }`
+                            }
+                        >
+                            <MdDashboard size={20} />
                             {!isCollapsed && <span>Início</span>}
                         </NavLink>
+
+
                     </li>
                     <li>
-                        <NavLink to="/pacientes" className={({isActive}) => 
-                            isActive ? `${isDarkMode ? 'text-cyan-400' : 'text-cyan-300'} flex gap-2` : `flex items-center gap-3 ${isDarkMode ? 'hover:text-cyan-400' : 'hover:text-cyan-300'}`
-                        }>
-                            <FaUserPlus size={20}/>
-                            {!isCollapsed && <span>Registrar Paciente</span>}
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/consultas" className={({isActive}) => 
-                            isActive ? `${isDarkMode ? 'text-cyan-400' : 'text-cyan-300'} flex gap-2` : `flex items-center gap-3 ${isDarkMode ? 'hover:text-cyan-400' : 'hover:text-cyan-300'}`
-                        }
+                        <NavLink
+                            to="/prontuarios"
+                            className={({ isActive }) =>
+                                `flex gap-2 hover:text-cyan-300 ${isActive ? "text-cyan-300" : "text-white"
+                                }`
+                            }
                         >
-                            <FaCalendarCheck size={20}/>
-                            {!isCollapsed && <span>Consultas</span>}
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/prontuarios" className={({isActive}) => 
-                            isActive ? `${isDarkMode ? 'text-cyan-400' : 'text-cyan-300'} flex gap-2` : `flex items-center gap-3 ${isDarkMode ? 'hover:text-cyan-400' : 'hover:text-cyan-300'}`
-                        }>
-                            <FaListAlt size={20}/>
+                            <FaCalendarCheck size={20} />
                             {!isCollapsed && <span>Prontuários</span>}
                         </NavLink>
+
+
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/pacientes"
+                            className={({ isActive }) =>
+                                `flex gap-2 hover:text-cyan-300 ${isActive ? "text-cyan-300" : "text-white"
+                                }`
+                            }
+                        >
+                            <FaUserPlus size={20} />
+                            {!isCollapsed && <span>Registrar Paciente</span>}
+                        </NavLink>
+
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/consultas"
+                            className={({ isActive }) =>
+                                `flex gap-2 hover:text-cyan-300 ${isActive ? "text-cyan-300" : "text-white"
+                                }`
+                            }
+                        >
+                            <MdMenu size={20} />
+                            {!isCollapsed && <span>Consultas</span>}
+                        </NavLink>
+
+
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/exames"
+                            className={({ isActive }) =>
+                                `flex gap-2 hover:text-cyan-300 ${isActive ? "text-cyan-300" : "text-white"
+                                }`
+                            }
+                        >
+                            <FaListAlt size={20} />
+                            {!isCollapsed && <span>Exames</span>}
+                        </NavLink>
+
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/exames-list"
+                            className={({ isActive }) =>
+                                `flex gap-2 hover:text-cyan-300 ${isActive ? "text-cyan-300" : "text-white"
+                                }`
+                            }
+                        >
+                            <FaListAlt size={20} />
+                            {!isCollapsed && <span>Lista de exames</span>}
+                        </NavLink>
+
                     </li>
                 </ul>
             </nav>
