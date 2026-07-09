@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router";
-import axios from "axios";
 import apiClient from "../../api/api";
+import { normalizeList } from "../../utils/normalizeList"; // ajuste o caminho conforme seu projeto
 
 const MedicalRecordList = () => {
   const [patients, setPatients] = useState([]);
@@ -11,13 +11,12 @@ const MedicalRecordList = () => {
     const fetchPatients = async () => {
       try {
         const response = await apiClient.get("/pacientes");
-        console.log(response.data.data)
-        setPatients(response.data.data);
+        setPatients(normalizeList(response.data.data.pacientes));
       } catch (error) {
         console.error("Erro ao obter dados dos pacientes:", error);
+        setPatients([]); // garante array vazio em caso de erro também
       }
     };
-
     fetchPatients();
   }, []);
 
@@ -27,8 +26,8 @@ const MedicalRecordList = () => {
 
   const filteredPatients = patients.filter((patient) => {
     return (
-      patient.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      patient.id.toString().includes(searchTerm)
+      patient.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient.id?.toString().includes(searchTerm)
     );
   });
 
@@ -37,8 +36,6 @@ const MedicalRecordList = () => {
       <h2 className="text-2xl font-bold mb-6 text-gray-800">
         Listagem de Prontuários
       </h2>
-
-      {/* Campo de busca */}
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <label htmlFor="search" className="text-gray-700 font-medium">
           Buscar Paciente:
@@ -52,8 +49,6 @@ const MedicalRecordList = () => {
           className="w-full sm:w-1/2 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-600"
         />
       </div>
-
-      {/* Lista de pacientes */}
       <ul className="space-y-4">
         {filteredPatients.length > 0 ? (
           filteredPatients.map((patient) => (
@@ -65,10 +60,7 @@ const MedicalRecordList = () => {
                 <strong className="text-gray-700">Registro:</strong> {patient.id}
               </p>
               <p className="text-gray-700">
-                <strong>Nome:</strong> {patient.fullName}
-              </p>
-              <p className="text-gray-700">
-                <strong>Convênio:</strong> {patient.healthInsurance}
+                <strong>Nome:</strong> {patient.nome}
               </p>
               <Link
                 to={`/paciente/${patient.id}`}
