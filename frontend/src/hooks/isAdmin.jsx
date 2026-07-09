@@ -5,7 +5,5 @@ import { useOutletContext } from "react-router";
 export const useIsAdmin = () => { 
     const { user } = useAuth()
 
-    const isAdmin = user?.roles === "ADMIN"
-
-    return isAdmin
+    return user?.role === "ADMIN"
 } 

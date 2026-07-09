@@ -39,6 +39,7 @@ export const PatientsList = ({ isDarkMode = false }) => {
 
   const fetchPatients = useCallback(async (page = 1, limit = 4, isBlurSearch = false, currentSearch = "") => {
     try {
+      console.log(isAdmin)
       if (!isAdmin) {
         setPatients([])
         return
