@@ -4,6 +4,7 @@ import { Link } from "react-router"
 import apiClient from "../../api/api"
 import { useAuth } from "../../contexts/AuthContext"
 import { useIsAdmin } from "../../hooks/isAdmin"
+import RestrictedAdmin from "../Messages/RestrictedAdmin"
 
 export const PatientsList = ({ isDarkMode = false }) => {
   const [patients, setPatients] = useState([])
@@ -233,9 +234,7 @@ export const PatientsList = ({ isDarkMode = false }) => {
           )}
         </>
       ) : (
-        <p className={`text-center py-6 ${isDarkMode ? "text-slate-400" : "text-gray-500"}`}>
-          <strong className="text-red-400">Acesso restrito</strong>, usuário não é administrador
-        </p>
+        <RestrictedAdmin/>
       )}
     </div>
   )
