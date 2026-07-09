@@ -3,6 +3,7 @@ import { useOutletContext, useParams } from 'react-router'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import apiClient from '../../api/api'
+import { normalizeList } from '../../utils/normalizeList'
 
 const formatDateValue = (value) => {
   if (!value) return '-'
@@ -34,17 +35,6 @@ const toISOStringValue = (value) => {
   if (Number.isNaN(date.getTime())) return value
 
   return date.toISOString()
-}
-
-const normalizeList = (payload) => {
-  if (Array.isArray(payload)) return payload
-  if (Array.isArray(payload?.data)) return payload.data
-  if (Array.isArray(payload?.data?.exames)) return payload.data.exames
-  if (Array.isArray(payload?.data?.consultas)) return payload.data.consultas
-  if (Array.isArray(payload?.exames)) return payload.exames
-  if (Array.isArray(payload?.consultas)) return payload.consultas
-
-  return []
 }
 
 const PatientDetails = () => {

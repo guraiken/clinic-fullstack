@@ -3,13 +3,14 @@ import { FaUserAlt } from "react-icons/fa"
 import { Link } from "react-router"
 import apiClient from "../../api/api"
 import { useAuth } from "../../contexts/AuthContext"
+import { useIsAdmin } from "../../hooks/isAdmin"
 
 export const PatientsList = ({ isDarkMode = false }) => {
   const [patients, setPatients] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [ages, setAges] = useState({})
-  const { user } = useAuth()
-  const [isAdmin, setIsAdmin] = useState(false)
+  const {user} = useAuth()
+  const isAdmin = useIsAdmin()
   const [loading, setLoading] = useState(true) // Adicionado o estado de loading inicializado como true
 
   // Referência persistente para o temporizador do Debounce
@@ -37,12 +38,10 @@ export const PatientsList = ({ isDarkMode = false }) => {
 
   const fetchPatients = useCallback(async (page = 1, limit = 4, isBlurSearch = false, currentSearch = "") => {
     try {
-      if (!user || user.role !== "ADMIN") {
-        setIsAdmin(false)
+      if (!isAdmin) {
         setPatients([])
         return
       }
-      setIsAdmin(true)
 
       const hasSearchTerm = currentSearch.trim().length > 0
       const shouldFetchAll = isBlurSearch && hasSearchTerm
